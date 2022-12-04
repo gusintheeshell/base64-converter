@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #ccc;
 }
 
 .logo {
@@ -34,8 +35,36 @@
 
 .card {
   padding: 2em;
+  background-color: #888;
+  margin-bottom: 2em;
+  height: 10em;
+  color: #fff;
+  word-wrap: break-word;
 }
 
 .read-the-docs {
   color: #888;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  padding: 10px;
+  max-width: 100%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+  resize: none;
+  margin-bottom: 2em;
+}
+
+.input-button-container {
+  display: flex;
+  justify-content: space-around;
 }

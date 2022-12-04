@@ -1,34 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import { Buffer } from "buffer/";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [dataToManipulate, setDataToManipulate] = useState<any>();
+  const [showResult, setShowResult] = useState<string>("");
+  const [radioValue, setRadioValue] = useState<string>("Encode");
+
+  const isRadioSelected = (value: string): boolean => radioValue === value;
+
+  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
+    setRadioValue(e.currentTarget.value);
+
+  const encodeBase64 = (data: any) => {
+    let stringEncoded = Buffer.from(data).toString("base64");
+    setShowResult(stringEncoded);
+  };
+
+  const decodeBase64 = (data: any) => {
+    let stringDecoded = Buffer.from(data, "base64").toString("ascii");
+    setShowResult(stringDecoded);
+  };
+
+  const handleResult = () => {
+    return (
+      dataToManipulate !== undefined &&
+      dataToManipulate !== "" && <div className="card">{showResult}</div>
+    );
+  };
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>Encode/Decode to Base64 format</h1>
+      <span>Simply enter your data then push the encode/decode button.</span>
+      <h2>What do you want?</h2>
+      <form>
+        Encode
+        <input
+          name="radio-encode-decode"
+          value="Encode"
+          onChange={handleRadioClick}
+          checked={isRadioSelected("Encode")}
+          type="radio"
+        />
+        Decode
+        <input
+          name="radio-encode-decode"
+          value="Decode"
+          onChange={handleRadioClick}
+          checked={isRadioSelected("Decode")}
+          type="radio"
+        />
+      </form>
+      <div className="input-container">
+        <textarea
+          name="encode"
+          id="encode"
+          cols={30}
+          rows={10}
+          onChange={(event) => setDataToManipulate(event.target.value)}
+        ></textarea>
+        {handleResult()}
+        <div className="input-button-container">
+          <button
+            onClick={() => {
+              if (radioValue === "Encode") {
+                encodeBase64(dataToManipulate);
+              } else {
+                decodeBase64(dataToManipulate);
+              }
+            }}
+          >
+            {radioValue}
+          </button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
